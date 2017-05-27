@@ -67,7 +67,7 @@ class ArticleLister
         'readscore' => $this->calculateReadScore($first_paragraph),
       );
 
-      // @todo sort the array by readscore, lowest => highest
+      uasort($scored_articles, array($this,'sortByReadscore'));
 
     }
 
@@ -177,6 +177,27 @@ class ArticleLister
   {
     $textStatistics = new TS\TextStatistics;
     return $textStatistics->fleschKincaidReadingEase($text);
+  }
+
+
+  /**
+   * Compare readscores in order to create an ordered array.
+   *
+   * @param $a
+   * @param $b
+   * @return int
+   */
+  private static function sortByReadscore($a, $b)
+  {
+    $a = $a['readscore'];
+    $b = $b['readscore'];
+
+    if ($a == $b)
+    {
+      return 0;
+    }
+
+    return ($a < $b) ? -1 : 1;
   }
 
 
