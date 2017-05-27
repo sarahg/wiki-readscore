@@ -22,6 +22,7 @@ class ArticleLister
     $this->results_table = $this->render($results);
   }
 
+
   /**
    * Retrieves articles from Wikipedia.
    *
@@ -34,24 +35,10 @@ class ArticleLister
   {
     $limit = 50;
     $url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
-
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-    curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-
-    $response = curl_exec($curl);
-
-    curl_close($curl);
-
-    // @todo some sorta error handling
-    // try/catch maybe, perhaps check HTTP return code
-
-    $results = json_decode($response, TRUE);
-
+    $results = $this->wikipediaAPIRequest($url);
     return $results;
   }
+
 
   /**
    * Formats scored articles into an array for rendering.
@@ -83,29 +70,6 @@ class ArticleLister
     return $scored_articles;
   }
 
-  /**
-   * Get the first paragraph of an article.
-   *
-   * @param int $page_id
-   *   The article's page ID.
-   * @return string
-   */
-  protected function getArticleFirstParagraph($page_id)
-  {
-    return ''; // @todo
-  }
-
-  /**
-   * Calculate the readability score of given text.
-   *
-   * @param string $text
-   * @return int
-   *   Readability score for the text.
-   */
-  protected function calculateReadScore($text)
-  {
-    return rand(0, 100); // @todo
-  }
 
   /**
    * Returns an HTML table with results.
@@ -142,6 +106,59 @@ class ArticleLister
 
     return '<div class="wrapper">' . implode('', $output) . '</div>';
   }
+
+
+  /**
+   * Make an API request to Wikipedia using cURL.
+   *
+   * @param $url
+   * @return array
+   */
+  public function wikipediaAPIRequest($url)
+  {
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+
+    $response = curl_exec($curl);
+
+    curl_close($curl);
+
+    // @todo some sorta error handling
+    // try/catch maybe, perhaps check HTTP return code
+
+    $results = json_decode($response, TRUE);
+    return $results;
+  }
+
+
+  /**
+   * Get the first paragraph of an article.
+   *
+   * @param int $page_id
+   *   The article's page ID.
+   * @return string
+   */
+  protected function getArticleFirstParagraph($page_id)
+  {
+    return ''; // @todo
+  }
+
+
+  /**
+   * Calculate the readability score of given text.
+   *
+   * @param string $text
+   * @return int
+   *   Readability score for the text.
+   */
+  protected function calculateReadScore($text)
+  {
+    return rand(0, 100); // @todo
+  }
+
 
   /**
    * @return string
