@@ -34,8 +34,8 @@ class ArticleLister
   protected function getArticles($category)
   {
     $limit = 50;
-    $url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
-    $results = $this->wikipediaAPIRequest($url);
+    $request_url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
+    $results = $this->wikipediaAPIRequest($request_url);
     return $results;
   }
 
@@ -56,7 +56,7 @@ class ArticleLister
     foreach ($articles['query']['categorymembers'] as $article) {
 
       $id = $article['pageid'];
-      $first_paragraph = $this->getArticleFirstParagraph($id);
+      $first_paragraph = $this->getArticleFirstParagraph($article['title']);
 
       $scored_articles[$id] = array(
         'title' => $article['title'],
@@ -111,13 +111,13 @@ class ArticleLister
   /**
    * Make an API request to Wikipedia using cURL.
    *
-   * @param $url
+   * @param string $request_url
    * @return array
    */
-  public function wikipediaAPIRequest($url)
+  public function wikipediaAPIRequest($request_url)
   {
     $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_URL, $request_url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
     curl_setopt($curl, CURLOPT_TIMEOUT, 30);
@@ -137,13 +137,28 @@ class ArticleLister
   /**
    * Get the first paragraph of an article.
    *
-   * @param int $page_id
-   *   The article's page ID.
+   * @param string $title
+   *   The article's title.
    * @return string
    */
-  protected function getArticleFirstParagraph($page_id)
+  protected function getArticleFirstParagraph($title)
   {
-    return ''; // @todo
+    $first_paragraph = '';
+
+    // Make an API call to Wikipedia.
+    $request_url = 'https://en.wikipedia.org/w/api.php?action=parse&page='. $title .'&format=json&prop=text&section=0';
+    $result = $this->wikipediaAPIRequest($request_url);
+
+    // Use DOMDocument to extract the first paragraph.
+    if (isset($result['parse']['text']['*'])) {
+      $dom = new DOMDocument;
+      libxml_use_internal_errors(TRUE);
+      $dom->loadHTML($result['parse']['text']['*']);
+      $nodes = $dom->getElementsByTagName('p');
+      $first_paragraph = $nodes->item(0)->nodeValue;
+    }
+
+    return $first_paragraph;
   }
 
 
