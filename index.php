@@ -22,7 +22,7 @@
 
         <div class="header-container">
             <header class="wrapper clearfix">
-                <h1 class="title">wiki readscore</h1>
+              <h1 class="title"><a href="/">wiki readscore</a></h1>
             </header>
         </div>
 
