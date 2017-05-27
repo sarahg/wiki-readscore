@@ -15,13 +15,12 @@ class ArticleLister
 
   public function __construct($category)
   {
-
     $this->_category = $category;
 
     $articles = $this->getArticles($category);
-    $results = $this->buildSortableList($articles);
-    $this->results_table = $this->render($results);
+    $results = $this->getArticleReadScores($articles);
 
+    $this->results_table = $this->render($results);
   }
 
   /**
@@ -55,13 +54,52 @@ class ArticleLister
   }
 
   /**
-   * Builds a list of articles.
+   * Formats scored articles into an array for rendering.
    *
    * @param $articles
    */
-  protected function buildSortableList($articles)
+  protected function getArticleReadScores($articles)
   {
-    return $articles['query']['categorymembers'];
+    $scored_articles = array();
+
+    // Loop through results and collect their IDs, titles, first paragraph
+    // content, and readability scores.
+    foreach ($articles['query']['categorymembers'] as $article) {
+
+      $id = $article['pageid'];
+      $first_paragraph = $this->getArticleFirstParagraph($id);
+
+      $scored_articles[$id] = array(
+        'title' => $article['title'],
+        'readscore' => $this->calculateReadScore($first_paragraph),
+      );
+
+    }
+
+    return $scored_articles;
+  }
+
+  /**
+   * Get the first paragraph of an article.
+   *
+   * @param int $page_id
+   *   The article's page ID.
+   * @return string
+   */
+  protected function getArticleFirstParagraph($page_id)
+  {
+    return ''; // @todo
+  }
+
+  /**
+   * Calculate the readability score of given text.
+   *
+   * @param string $text
+   * @return int
+   */
+  protected function calculateReadScore($text)
+  {
+    return rand(0, 100); // @todo
   }
 
   /**
@@ -88,10 +126,10 @@ class ArticleLister
     $output[] = '</thead><tbody>';
 
     // Table rows.
-    foreach ($results as $row) {
+    foreach ($results as $page_id => $data) {
       $output[] = '<tr>';
-      $output[] = '<td><a title="View article on Wikipedia" href="https://en.wikipedia.org/?curid='. $row['pageid'] .'">'. $row['title'] .'</a></td>';
-      $output[] = '<td class="int">0</td>';
+      $output[] = '<td><a title="View article on Wikipedia" href="https://en.wikipedia.org/?curid='. $page_id .'">'. $data['title'] .'</a></td>';
+      $output[] = '<td class="int">'. $data['readscore'] .'</td>';
       $output[] = '</tr>';
     }
 
