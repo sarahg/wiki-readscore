@@ -3,7 +3,9 @@
  * @file app.php
  */
 
-include_once('ArticleLister.php');
+require '../vendor/autoload.php';
+
+Use Readscore\ArticleLister;
 
 $category = $_POST['category'];
 echo new ArticleLister($category);

@@ -1,5 +1,9 @@
 <?php
 
+namespace Readscore;
+
+use DaveChild\TextStatistics as TS;
+
 /**
  * Class ArticleLister
  *
@@ -151,7 +155,7 @@ class ArticleLister
 
     // Use DOMDocument to extract the first paragraph.
     if (isset($result['parse']['text']['*'])) {
-      $dom = new DOMDocument;
+      $dom = new \DOMDocument;
       libxml_use_internal_errors(TRUE);
       $dom->loadHTML($result['parse']['text']['*']);
       $nodes = $dom->getElementsByTagName('p');
@@ -171,7 +175,8 @@ class ArticleLister
    */
   protected function calculateReadScore($text)
   {
-    return rand(0, 100); // @todo
+    $textStatistics = new TS\TextStatistics;
+    return $textStatistics->fleschKincaidReadingEase($text);
   }
 
 

@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Readscore\\":"includes/"
+        }
+    },
+    "require": {
+        "davechild/textstatistics": "^1.0"
+    }
+}
