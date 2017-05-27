@@ -13,6 +13,7 @@ class ArticleLister
 {
   public $category;
   public $articles;
+  public $results_table;
 
   public function __construct($category)
   {
@@ -20,7 +21,7 @@ class ArticleLister
 
     $articles = $this->getArticles($category);
     $results = $this->buildSortableList($articles);
-    $this->render($results);
+    $this->results_table = $this->render($results);
   }
 
   /**
@@ -45,7 +46,8 @@ class ArticleLister
 
     curl_close($curl);
 
-    // @todo some sorta error handling.
+    // @todo some sorta error handling
+    // try/catch maybe, perhaps check HTTP return code
 
     $results = json_decode($response, TRUE);
 
@@ -70,23 +72,45 @@ class ArticleLister
    */
   protected function render($results)
   {
+    $output = array();
+
     if (empty($results)) {
-      echo 'No results found.';
+      echo 'No results found.'; // @todo this could be more helpful
       exit();
     }
 
-    $output = '<table><thead><td>Title</td></thead><tbody>';
-    foreach ($results as $row) {
-      $output .= '<tr><td>'. $row['title'] .'</td></tr>';
-    }
-    $output .= '</tbody></table>';
+    // Build a table for results.
+    $output[] = '<table><thead>';
 
-    echo $output;
+    // Table header.
+    $output[] = '<th>Title</th>';
+    $output[] = '<th class="int">Readability score</th>';
+    $output[] = '</thead><tbody>';
+
+    // Table rows.
+    foreach ($results as $row) {
+      $output[] = '<tr>';
+      $output[] = '<td>'. $row['title'] .'</td>';
+      $output[] = '<td class="int">0</td>';
+      $output[] = '</tr>';
+    }
+
+    $output[] = '</tbody></table>';
+
+    return '<div class="wrapper">' . implode('', $output) . '</div>';
+  }
+
+  /**
+   * @return string
+   */
+  public function __toString()
+  {
+    return $this->results_table;
   }
 
 }
 
 $category = $_POST['category'];
-new ArticleLister($category);
+echo new ArticleLister($category);
 
 ?>
