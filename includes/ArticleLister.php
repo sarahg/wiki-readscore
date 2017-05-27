@@ -3,14 +3,13 @@
 /**
  * Class ArticleLister
  *
- * Retrieves a list of articles from a Wikipedia category, sorted by
- * readability score.
+ * Retrieves a list of articles from a Wikipedia category,
+ * sorted by readability score.
  */
 class ArticleLister
 {
 
   public $category;
-  public $articles;
   public $results_table;
 
   public function __construct($category)
@@ -26,9 +25,10 @@ class ArticleLister
   /**
    * Retrieves articles from Wikipedia.
    *
-   * @param $category
+   * @param string $category
+   *   A Wikipedia category name, provided by a user.
    * @return array
-   *   Array of matched articles.
+   *   Array of articles in the given category.
    */
   protected function getArticles($category)
   {
@@ -57,6 +57,8 @@ class ArticleLister
    * Formats scored articles into an array for rendering.
    *
    * @param $articles
+   * @return array
+   *   Associative array of article titles and readscores, keyed by page ID.
    */
   protected function getArticleReadScores($articles)
   {
@@ -73,6 +75,8 @@ class ArticleLister
         'title' => $article['title'],
         'readscore' => $this->calculateReadScore($first_paragraph),
       );
+
+      // @todo sort the array by readscore, lowest => highest
 
     }
 
@@ -96,6 +100,7 @@ class ArticleLister
    *
    * @param string $text
    * @return int
+   *   Readability score for the text.
    */
   protected function calculateReadScore($text)
   {
@@ -105,7 +110,7 @@ class ArticleLister
   /**
    * Returns an HTML table with results.
    *
-   * @param $results
+   * @param array $results
    * @return string
    */
   protected function render($results)
