@@ -90,7 +90,7 @@ class ArticleLister
     // Table rows.
     foreach ($results as $row) {
       $output[] = '<tr>';
-      $output[] = '<td>'. $row['title'] .'</td>';
+      $output[] = '<td><a title="View article on Wikipedia" href="https://en.wikipedia.org/?curid='. $row['pageid'] .'">'. $row['title'] .'</a></td>';
       $output[] = '<td class="int">0</td>';
       $output[] = '</tr>';
     }

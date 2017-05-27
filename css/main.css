@@ -243,6 +243,20 @@ table tbody tr:nth-of-type(odd) {
 th.int, td.int {
     text-align: center;
 }
+table a {
+    border-bottom: none;
+    color: #222;
+
+}
+table a:hover {
+    background: none;
+    border-radius: 0;
+    text-decoration: underline;
+}
+td a {
+    display:block;
+    width:100%;
+}
 
 
 /* ==========================================================================
