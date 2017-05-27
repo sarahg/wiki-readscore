@@ -40,6 +40,7 @@ class ArticleLister
     $limit = 50;
     $request_url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
     $results = $this->wikipediaAPIRequest($request_url);
+
     return $results;
   }
 
@@ -55,21 +56,24 @@ class ArticleLister
   {
     $scored_articles = array();
 
-    // Loop through results and collect their IDs, titles, first paragraph
-    // content, and readability scores.
+    // Loop through results and collect their IDs and titles.
     foreach ($articles['query']['categorymembers'] as $article) {
-
       $id = $article['pageid'];
-      $first_paragraph = $this->getArticleFirstParagraph($article['title']);
-
-      $scored_articles[$id] = array(
-        'title' => $article['title'],
-        'readscore' => $this->calculateReadScore($first_paragraph),
-      );
-
-      uasort($scored_articles, array($this,'sortByReadscore'));
-
+      $titles[] = $article['title'];
+      $scored_articles[$id]['title'] = $article['title'];
     }
+
+    // Retrieve extracts from all the articles.
+    $paragraphs = $this->getArticleFirstParagraphs($titles);
+
+    // Add extracts and readscores to our list.
+    foreach ($paragraphs as $id => $text) {
+      $scored_articles[$id]['text'] = $text;
+      $scored_articles[$id]['readscore'] = $this->calculateReadScore($text);
+    }
+
+    // Sort the list by score, lowest to highest.
+    // uasort($scored_articles, array($this,'sortByReadscore'));
 
     return $scored_articles;
   }
@@ -95,6 +99,7 @@ class ArticleLister
 
     // Table header.
     $output[] = '<th>Title</th>';
+    $output[] = '<th>Text analyzed</th>';
     $output[] = '<th class="int">Readability score</th>';
     $output[] = '</thead><tbody>';
 
@@ -102,7 +107,8 @@ class ArticleLister
     foreach ($results as $page_id => $data) {
       $output[] = '<tr>';
       $output[] = '<td><a title="View article on Wikipedia" href="https://en.wikipedia.org/?curid='. $page_id .'">'. $data['title'] .'</a></td>';
-      $output[] = '<td class="int">'. $data['readscore'] .'</td>';
+      if (isset($data['text'])) { $output[] = '<td>' . $data['text'] . '</td>'; }
+      if (isset($data['readscore'])) { $output[] = '<td class="int">'. $data['readscore'] .'</td>'; }
       $output[] = '</tr>';
     }
 
@@ -143,26 +149,33 @@ class ArticleLister
    *
    * @param string $title
    *   The article's title.
-   * @return string
+   * @return array
    */
-  protected function getArticleFirstParagraph($title)
+  protected function getArticleFirstParagraphs($titles)
   {
-    $first_paragraph = '';
+    $first_paragraphs = array();
+
+    $titles = rawurlencode(implode('|', $titles));
 
     // Make an API call to Wikipedia.
-    $request_url = 'https://en.wikipedia.org/w/api.php?action=parse&page='. $title .'&format=json&prop=text&section=0';
-    $result = $this->wikipediaAPIRequest($request_url);
+    $request_url = 'https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&titles='. $titles .'&redirects=true';
+    //var_dump($request_url);
+    $results = $this->wikipediaAPIRequest($request_url);
 
-    // Use DOMDocument to extract the first paragraph.
-    if (isset($result['parse']['text']['*'])) {
-      $dom = new \DOMDocument;
-      libxml_use_internal_errors(TRUE);
-      $dom->loadHTML($result['parse']['text']['*']);
-      $nodes = $dom->getElementsByTagName('p');
-      $first_paragraph = $nodes->item(0)->nodeValue;
+    //var_dump($results);
+
+    // Use DOMDocument to extract the first paragraph of each result.
+    foreach ($results['query']['pages'] as $id => $page) {
+      if (isset($page['extract'])) {
+        $dom = new \DOMDocument;
+        libxml_use_internal_errors(TRUE);
+        $dom->loadHTML($page['extract']);
+        $nodes = $dom->getElementsByTagName('p');
+        $first_paragraphs[$id] = $nodes->item(0)->nodeValue;
+      }
     }
 
-    return $first_paragraph;
+    return $first_paragraphs;
   }
 
 
@@ -189,6 +202,7 @@ class ArticleLister
    */
   private static function sortByReadscore($a, $b)
   {
+
     $a = $a['readscore'];
     $b = $b['readscore'];
 
