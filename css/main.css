@@ -65,29 +65,6 @@ body {
     margin: 0 5%;
 }
 
-/* ===================
-    ALL: Orange Theme
-   =================== */
-
-.header-container {
-    border-bottom: 20px solid #e44d26;
-}
-
-.footer-container,
-.main aside {
-    border-top: 20px solid #e44d26;
-}
-
-.header-container,
-.footer-container,
-.main aside {
-    background: #f16529;
-}
-
-.title {
-    color: white;
-}
-
 /* ==============
     MOBILE: Menu
    ============== */
@@ -154,17 +131,74 @@ nav a:hover {
    Author's custom styles
    ========================================================================== */
 
+/* ===================
+    SG Blue Theme
+   =================== */
 
-
-
-
-
-
-
-
-
-
-
+body {
+    background-color: #2C5E7D;
+    line-height: 300%;
+    padding: 0;
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    color: #F5ECEC;
+}
+h1 {
+    font-family: 'Candal', sans-serif;
+    color: #F9D904;
+    font-size: 3em;
+    line-height: 1em;
+    margin-bottom: 0;
+    font-weight: 500;
+}
+p, label {
+    width: 620px;
+    line-height: 26px;
+    margin: 0 0 1em 0;
+}
+a {
+    color: #FFFFFF;
+    padding: 0 3px;
+    text-decoration: none;
+    border-bottom: 1px dotted #F5ECEC;
+}
+a:hover {
+    background-color: #ffb200;
+    text-decoration: none;
+    border-bottom: none;
+    border-radius: 2px;
+}
+.btn {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #5cb85c;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .5rem 1rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+#wiki-category {
+    padding: 5px;
+    margin-right: 4px;
+    color: #222;
+}
+.hidden {
+    display: none;
+}
 
 
 
@@ -208,17 +242,6 @@ nav a:hover {
 }
 
 @media only screen and (min-width: 768px) {
-
-/* ====================
-    WIDE: CSS3 Effects
-   ==================== */
-
-    .header-container,
-    .main aside {
-        -webkit-box-shadow: 0 5px 10px #aaa;
-           -moz-box-shadow: 0 5px 10px #aaa;
-                box-shadow: 0 5px 10px #aaa;
-    }
 
 /* ============
     WIDE: Menu
