@@ -172,6 +172,30 @@ a:hover {
     border-bottom: none;
     border-radius: 2px;
 }
+#wiki-category {
+    padding: 5px;
+    margin-right: 4px;
+    color: #222;
+}
+.hidden {
+    display: none;
+}
+.results .wrapper {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    border-width: .2rem;
+    border: solid #f7f7f9;
+    background: white;
+    color: #222;
+    width: 80%;
+    border-radius: 5px;
+}
+
+/* ==========================================================================
+   Button and table styles courtesy of https://v4-alpha.getbootstrap.com
+   ========================================================================== */
 .btn {
     color: #fff;
     background-color: #5cb85c;
@@ -194,14 +218,32 @@ a:hover {
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
 }
-#wiki-category {
-    padding: 5px;
-    margin-right: 4px;
-    color: #222;
+
+table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    background-color: transparent;
 }
-.hidden {
-    display: none;
+thead th {
+    font-weight: bold;
+    vertical-align: bottom;
+    border-bottom: 2px solid #eceeef;
+    text-align: left;
 }
+td, th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #eceeef;
+}
+table tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+th.int, td.int {
+    text-align: center;
+}
+
 
 /* ==========================================================================
    Loader animation courtesy of https://projects.lukehaas.me/css-loaders/
