@@ -37,11 +37,13 @@
                   that category, sorted by readability.
                 </p>
 
-                <form method="post" action="">
+                <form id="search-category" method="post" action="">
                   <label for="wiki-category" class="hidden">Category</label>
                   <input type="text" id="wiki-category" name="wiki-category" value="" placeholder="" required="required" autofocus="autofocus" />
-                  <input type="submit" value="Search" id="submit-button" class="btn" />
+                  <input type="submit" value="Search" id="submit-category" class="btn" />
                 </form>
+
+                <div class="results"></div>
 
             </div> <!-- #main -->
         </div> <!-- #main-container -->
