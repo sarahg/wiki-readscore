@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc16c4193b1e7d86e21ecba911c3b2a7",
+    "content-hash": "4d509cae0962d96e33ac8939030997c8",
     "packages": [
         {
             "name": "davechild/textstatistics",
@@ -65,7 +65,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^5.5.0"
+        "php": "^5.5.0",
+        "ext-mbstring": "*"
     },
     "platform-dev": []
 }
