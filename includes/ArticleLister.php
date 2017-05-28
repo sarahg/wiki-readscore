@@ -139,6 +139,8 @@ class ArticleLister
    */
   public function wikipediaAPIRequest($request_url)
   {
+    $results = array();
+
     $curl = curl_init();
     curl_setopt($curl, CURLOPT_URL, $request_url);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
@@ -147,12 +149,16 @@ class ArticleLister
 
     $response = curl_exec($curl);
 
+    if ($response === FALSE) {
+      $error = curl_error($curl);
+      error_log('cURL error: ' . $error);
+    }
+    else {
+      $results = json_decode($response, TRUE);
+    }
+
     curl_close($curl);
 
-    // @todo some sorta error handling
-    // try/catch maybe, perhaps check HTTP return code
-
-    $results = json_decode($response, TRUE);
     return $results;
   }
 
