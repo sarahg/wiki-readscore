@@ -34,6 +34,10 @@
                   Enter a Wikipedia Category in the box below to view articles in
                   that category, sorted by readability.
                 </p>
+                <p>
+                  Scores are calculated using the
+                  <a href="https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests#Flesch_reading_ease">Flesch reading-ease test</a>.
+                </p>
 
                 <form id="search-category" method="post" action="">
                   <label for="wiki-category" class="hidden">Category</label>
