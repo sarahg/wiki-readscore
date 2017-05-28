@@ -42,9 +42,11 @@ class ArticleLister
     $results = $this->wikipediaAPIRequest($request_url);
 
     // Drop sub-category pages.
-    foreach ($results['query']['categorymembers'] as $key => $item) {
-      if ($item['type'] !== 'page') {
-        unset($results['query']['categorymembers'][$key]);
+    if (isset($results['query']['categorymembers'])) {
+      foreach ($results['query']['categorymembers'] as $key => $item) {
+        if ($item['type'] !== 'page') {
+          unset($results['query']['categorymembers'][$key]);
+        }
       }
     }
 
@@ -64,24 +66,26 @@ class ArticleLister
     $scored_articles = array();
 
     // Loop through results and collect their IDs and titles.
-    foreach ($articles['query']['categorymembers'] as $article) {
-      $id = $article['pageid'];
-      $titles[] = $article['title'];
-      $scored_articles[$id]['title'] = $article['title'];
-    }
-
-    if (!empty($titles)) {
-      // Retrieve extracts from all the articles.
-      $paragraphs = $this->getArticleFirstParagraphs($titles);
-
-      // Add extracts and readscores to our list.
-      foreach ($paragraphs as $id => $text) {
-        $scored_articles[$id]['text'] = $text;
-        $scored_articles[$id]['readscore'] = $this->calculateReadScore($text);
+    if (isset($results['query']['categorymembers'])) {
+      foreach ($articles['query']['categorymembers'] as $article) {
+        $id = $article['pageid'];
+        $titles[] = $article['title'];
+        $scored_articles[$id]['title'] = $article['title'];
       }
 
-      // Sort the list by score, lowest to highest.
-      uasort($scored_articles, array($this,'sortByReadscore'));
+      if (!empty($titles)) {
+        // Retrieve extracts from all the articles.
+        $paragraphs = $this->getArticleFirstParagraphs($titles);
+
+        // Add extracts and readscores to our list.
+        foreach ($paragraphs as $id => $text) {
+          $scored_articles[$id]['text'] = $text;
+          $scored_articles[$id]['readscore'] = $this->calculateReadScore($text);
+        }
+
+        // Sort the list by score, lowest to highest.
+        uasort($scored_articles, array($this,'sortByReadscore'));
+      }
     }
 
     return $scored_articles;
