@@ -5,6 +5,7 @@
         }
     },
     "require": {
-        "davechild/textstatistics": "^1.0"
+        "davechild/textstatistics": "^1.0",
+        "php": "5.5.0"
     }
 }
