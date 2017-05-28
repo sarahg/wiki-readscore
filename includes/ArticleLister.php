@@ -65,12 +65,15 @@ class ArticleLister
   {
     $scored_articles = array();
 
-    // Loop through results and collect their IDs and titles.
+
     if (isset($articles['query']['categorymembers'])) {
+
+      // Loop through results and collect their IDs and titles.
       foreach ($articles['query']['categorymembers'] as $article) {
         $id = $article['pageid'];
         $titles[] = $article['title'];
         $scored_articles[$id]['title'] = $article['title'];
+        $scored_articles[$id]['readscore'] = '--';
       }
 
       if (!empty($titles)) {
@@ -112,7 +115,6 @@ class ArticleLister
 
     // Table header.
     $output[] = '<th>Title</th>';
-    //$output[] = '<th>Text analyzed</th>';
     $output[] = '<th class="int">Readability score</th>';
     $output[] = '</thead><tbody>';
 
@@ -120,8 +122,7 @@ class ArticleLister
     foreach ($results as $page_id => $data) {
       $output[] = '<tr>';
       $output[] = '<td><a title="View article on Wikipedia" href="https://en.wikipedia.org/?curid='. $page_id .'">'. $data['title'] .'</a></td>';
-      //if (isset($data['text'])) { $output[] = '<td>' . $data['text'] . '</td>'; }
-      if (isset($data['readscore'])) { $output[] = '<td class="int">'. $data['readscore'] .'</td>'; }
+      $output[] = '<td class="int">'. $data['readscore'] .'</td>';
       $output[] = '</tr>';
     }
 
