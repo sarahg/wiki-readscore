@@ -38,10 +38,15 @@ class ArticleLister
   protected function getArticles($category)
   {
     $limit = 50;
-    $request_url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
+    $request_url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmprop=ids|title|type&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
     $results = $this->wikipediaAPIRequest($request_url);
 
-    // @todo Drop sub-category pages.
+    // Drop sub-category pages.
+    foreach ($results['query']['categorymembers'] as $key => $item) {
+      if ($item['type'] !== 'page') {
+        unset($results['query']['categorymembers'][$key]);
+      }
+    }
 
     return $results;
   }
