@@ -65,7 +65,6 @@ class ArticleLister
   {
     $scored_articles = array();
 
-
     if (isset($articles['query']['categorymembers'])) {
 
       // Loop through results and collect their IDs and titles.
@@ -174,10 +173,8 @@ class ArticleLister
 
     // Send continuing queries to the Wikipedia API.
     $request_url = 'https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&titles='. $titles;
-    $results = $this->wikipediaAPIRequest($request_url);
-    $total = count($results['query']['pages']);
-
-    for ($i = 0; $i <= $total; $i++) {
+    $i = 0;
+    do {
       $request_url = $request_url . '&excontinue=' . $i;
       $results = $this->wikipediaAPIRequest($request_url);
 
@@ -187,7 +184,10 @@ class ArticleLister
         }
       }
 
-    }
+      $i++;
+
+    } while(isset($results['continue']));
+
 
     // Use DOMDocument to extract the first paragraph of each result.
     foreach ($extracts as $id => $content) {
