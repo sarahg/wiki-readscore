@@ -30,9 +30,7 @@ $(document).ready(function() {
 
         //var request_time = new Date().getTime() - start_time;
         //console.log('Request time: ' + request_time + 'ms');
-
-        // @todo maybe add fancy classes to rows to have diff colors for score ranges (red/yellow/green)
-
+        
       }
     });
 
