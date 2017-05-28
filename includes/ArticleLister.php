@@ -66,7 +66,7 @@ class ArticleLister
     $scored_articles = array();
 
     // Loop through results and collect their IDs and titles.
-    if (isset($results['query']['categorymembers'])) {
+    if (isset($articles['query']['categorymembers'])) {
       foreach ($articles['query']['categorymembers'] as $article) {
         $id = $article['pageid'];
         $titles[] = $article['title'];
