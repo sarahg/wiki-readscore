@@ -105,7 +105,7 @@ class ArticleLister
     $output = array();
 
     if (empty($results)) {
-      echo 'No results found.'; // @todo this could be more helpful
+      echo '<p>No results found for <strong>'. $this->_category .'</strong>. Browse categories on <a href="https://en.wikipedia.org/wiki/Category:Main_topic_classifications">Wikipedia</a>.</p>';
       exit();
     }
 
@@ -187,7 +187,6 @@ class ArticleLister
       $i++;
 
     } while(isset($results['continue']));
-
 
     // Use DOMDocument to extract the first paragraph of each result.
     foreach ($extracts as $id => $content) {
