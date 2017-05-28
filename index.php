@@ -10,10 +10,11 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="css/normalize.min.css">
-        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/boilerplate/normalize.min.css">
+        <link rel="stylesheet" href="css/boilerplate/main.css">
+        <link rel="stylesheet" href="css/readscore.css">
 
-        <!--[if lt IE 9]>
+      <!--[if lt IE 9]>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script>window.html5 || document.write('<script src="js/vendor/html5shiv.js"><\/script>')</script>
         <![endif]-->
