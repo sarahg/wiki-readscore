@@ -41,10 +41,10 @@ class ArticleLister
     $request_url = 'https://en.wikipedia.org/w/api.php?action=query&list=categorymembers&cmprop=ids|title|type&cmtitle=Category:'. $category .'&cmlimit='. $limit . '&format=json';
     $results = $this->wikipediaAPIRequest($request_url);
 
-    // Drop sub-category pages.
+    // Drop sub-category pages and portal pages.
     if (isset($results['query']['categorymembers'])) {
       foreach ($results['query']['categorymembers'] as $key => $item) {
-        if ($item['type'] !== 'page') {
+        if ($item['type'] !== 'page' || strpos($item['title'], 'Portal:') !== FALSE) {
           unset($results['query']['categorymembers'][$key]);
         }
       }
