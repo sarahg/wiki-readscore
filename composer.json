@@ -6,6 +6,6 @@
     },
     "require": {
         "davechild/textstatistics": "^1.0",
-        "php": "5.5.0"
+        "php": "^5.5.0"
     }
 }

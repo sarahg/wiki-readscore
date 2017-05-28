@@ -30,23 +30,12 @@ class ComposerStaticInit0b64487525903d175e7c5f53c5c273a8
         ),
     );
 
-    public static $classMap = array (
-        'DaveChild\\TextStatistics\\Maths' => __DIR__ . '/..' . '/davechild/textstatistics/src/DaveChild/TextStatistics/Maths.php',
-        'DaveChild\\TextStatistics\\Pluralise' => __DIR__ . '/..' . '/davechild/textstatistics/src/DaveChild/TextStatistics/Pluralise.php',
-        'DaveChild\\TextStatistics\\Resource' => __DIR__ . '/..' . '/davechild/textstatistics/src/DaveChild/TextStatistics/Resource.php',
-        'DaveChild\\TextStatistics\\Syllables' => __DIR__ . '/..' . '/davechild/textstatistics/src/DaveChild/TextStatistics/Syllables.php',
-        'DaveChild\\TextStatistics\\Text' => __DIR__ . '/..' . '/davechild/textstatistics/src/DaveChild/TextStatistics/Text.php',
-        'DaveChild\\TextStatistics\\TextStatistics' => __DIR__ . '/..' . '/davechild/textstatistics/src/DaveChild/TextStatistics/TextStatistics.php',
-        'Readscore\\ArticleLister' => __DIR__ . '/../..' . '/includes/ArticleLister.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit0b64487525903d175e7c5f53c5c273a8::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit0b64487525903d175e7c5f53c5c273a8::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit0b64487525903d175e7c5f53c5c273a8::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0b64487525903d175e7c5f53c5c273a8::$classMap;
 
         }, null, ClassLoader::class);
     }
