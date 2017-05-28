@@ -43,9 +43,11 @@
                   <label for="wiki-category" class="hidden">Category</label>
                   <input type="text" id="wiki-category" name="wiki-category" value="" placeholder="" required="required" autofocus="autofocus" />
                   <input type="submit" value="Search" id="submit-category" class="btn" />
+                  <p class="description">Examples: trees, cats, physics</p>
                 </form>
 
-                <div class="results"></div>
+              <div class="loader-wrapper"></div>
+              <div class="results"></div>
 
             </div> <!-- #main -->
         </div> <!-- #main-container -->

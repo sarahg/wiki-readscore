@@ -23,7 +23,7 @@ p a:hover {
     border-radius: 2px;
 }
 .main.wrapper {
-    min-height: 400px;
+    min-height: 500px;
 }
 h1 {
     font-family: 'Candal', sans-serif;
@@ -70,12 +70,21 @@ p, label {
     color: #222;
     width: 80%;
     border-radius: 5px;
+    margin-top: 2em;
 }
 @media (max-width: 600px) {
     .results .wrapper {
         padding: 0;
         width: 100%;
     }
+}
+html input[disabled] {
+    opacity: .5;
+}
+p.description {
+    font-style: italic;
+    font-size: .75em;
+    margin-top: 4px;
 }
 
 /* ==========================================================================
