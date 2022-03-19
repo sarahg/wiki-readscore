@@ -201,7 +201,9 @@ class ArticleLister
         libxml_use_internal_errors(TRUE);
         $dom->loadHTML($content);
         $nodes = $dom->getElementsByTagName('p');
-        $first_paragraphs[$id] = $nodes->item(0)->nodeValue;
+        if ($nodes->item(0)) {
+          $first_paragraphs[$id] = $nodes->item(0)->nodeValue;
+        }
       }
     }
 

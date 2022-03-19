@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3cca062c0d632586cd9d6fa7b56c86bf",
+    "content-hash": "3e93c925f90e182e021506e7134bbc42",
     "packages": [
         {
             "name": "davechild/textstatistics",
